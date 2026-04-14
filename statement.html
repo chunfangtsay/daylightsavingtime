@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daylight Saving Time</title>
+    <style>
+        body {
+            font-family: 'Georgia',serif;
+            max-width: 565px;
+            margin: 0 auto;
+            padding: 65px;
+            line-height: 1.4;
+            color: #646464;
+            font-size: 16px;
+        }
+        h1 {
+            font-family: 'Georgia',serif;
+            max-width: 230px;
+            margin: 0 auto;
+            padding: 70px;
+            line-height: 1.5;
+            color: #646464;
+            font-size: 17px;
+            text-align: center;
+        }
+        .top-right-button {
+            position: fixed;
+            top: 20px;
+            right: 200px;
+            padding: 10px 20px;
+            background-color: transparent;
+            color: #646464;
+            text-decoration: none;
+            font-size: 18px;
+            font-family: 'Georgia', serif;
+            text-decoration: underline;
+            font-style: italic;
+        }
+        
+          .top-left-button {
+            position: fixed;
+            top: 20px;
+            left: 200px;
+            padding: 10px 20px;
+            background-color: transparent;
+            color: #646464;
+            text-decoration: none;
+            font-size: 18px;
+            font-family: 'Georgia', serif;
+
+        }
+        .top-right-button:hover {
+            text-decoration: none;
+        }
+        .top-left-button:hover {
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+     <a href="1.html" class="top-right-button">dice</a>
+    <a href="2.html" class="top-left-button">(back)</a>
+    <br>
+    <br>
+    <h1 id="random-image"></h1>
+    <br>
+    <p>Time Difference, Mapping Error is an ongoing project that comes from a series of video installations. It is a journal on the inprogress and the provisional, on ideas and practices of the creative process.</p>
+    
+    <p>We usually recognize time as cohesive and linear; what if it’s organic? At the opening of the movie Eternity and a Day, an old man said: time is a child who plays a dice on the shore. The boundary of time is inevitably subjective; the limit of measurement is something more organic. I try to redefine time with more intuitive and fictional forms based on my cross-cultural living experience. Lots of things are universal, but different in details on the map. After a long haul flight, an inner clock is still ticking from a parallel time zone.</p>
+    
+    <p>The final work will be showcased in ArtEZ Finals, July 2026. Tryout with multi-media and mixed materials will be updated every week.</p>
+    
+    <footer>
+        <p></p>
+    </footer>
+     <script>
+        const imageOptions = [
+            "clockcut/00.png",  // Replace with your image paths
+            "clockcut/01.png",
+            "clockcut/02.png",
+            "clockcut/03.png",
+            "clockcut/04.png",
+            "clockcut/05.png",
+            "clockcut/06.png",
+            "clockcut/07.png"
+        ];
+        const randomIndex = Math.floor(Math.random() * imageOptions.length);
+        document.getElementById("random-image").innerHTML = '<img src="' + imageOptions[randomIndex] + '" alt="Random Image" style="max-width: 100%; height: auto;">';
+    </script>
+</body>
+</html>
