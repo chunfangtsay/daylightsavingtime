@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Another Page</title>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Georgia', serif;
+            color: #000000;
+            font-size: 18px;
+            text-align: center;
+        }
+             a#random-link {
+            text-decoration: none;
+            color: black;
+            font-style: italic;
+        }
+        .top-left-button {
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            padding: 8px 12px;
+            background: transparent;
+            color: black;
+            text-decoration: none;
+            font-family: 'Georgia', serif;
+            z-index: 700;
+        }
+        .top-left-button:hover {
+            font-style: italic;
+        }
+        .floating-image {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1000;
+        }
+        .floating-image img {
+            max-width: 80px;
+            height: auto;
+            filter: drop-shadow(0 0 5px rgba(0,0,0,0.2));
+        }
+        .center-ellipse {
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 1400px;
+            height: 720px;
+            border: 1px solid rgb(0, 0, 0);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 500;
+            background: transparent;
+            display: none;
+        }
+        .center-dot {
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            width: 4px;
+            height: 4px;
+            background: black;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 502;
+        }
+        .center-ray {
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            height: 2px;
+            background: rgb(0, 132, 255);
+            transform-origin: left center;
+            transform: translateY(-50%) rotate(0deg);
+            pointer-events: none;
+            z-index: 501;
+            display: none;
+            border-radius: 999px;
+        }
+        .center-ray.long {
+            width: 260px;
+        }
+        .center-ray.short {
+            width: 140px;
+            height: 4px;
+            border-radius: 999px;
+        }
+        .edge-arrow {
+            position: fixed;
+            font-size: 20px;
+            color: rgb(0, 132, 255);
+            pointer-events: none;
+            z-index: 600;
+            user-select: none;
+        }
+        .edge-arrow.top {
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .edge-arrow.bottom {
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .edge-arrow.left {
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .edge-arrow.right {
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        @keyframes fadeOut {
+            0% {
+                opacity: 1;
+            }
+            85% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1></h1>
+    <a href="2.html" class="top-left-button">(back)</a>
+    <div class="center-ellipse"></div>
+    <div class="center-dot"></div>
+    <div class="center-ray long"></div>
+    <div class="center-ray short"></div>
+    <div class="edge-arrow top">→</div>
+    <div class="edge-arrow bottom">←</div>
+    <div class="edge-arrow left">↑</div>
+    <div class="edge-arrow right">↓</div>
+    <script>
+        const imageOptions = [];
+        for (let i = 1; i <= 21; i++) {
+            const padded = i.toString().padStart(2, '0');
+            imageOptions.push(`clockcut/fprae-${padded}.png`);
+        }
+
+        let lastX = 0;
+        let lastY = 0;
+        let lastTime = 0;
+        let hideEllipseTimer = null;
+
+        function setRandomCenterRays() {
+            const longRay = document.querySelector('.center-ray.long');
+            const shortRay = document.querySelector('.center-ray.short');
+            const longAngle = Math.random() * 360;
+            const shortAngle = (longAngle + 90 + Math.random() * 120) % 360;
+
+            longRay.style.transform = `translateY(-50%) rotate(${longAngle}deg)`;
+            shortRay.style.transform = `translateY(-50%) rotate(${shortAngle}deg)`;
+            longRay.style.display = 'block';
+            shortRay.style.display = 'block';
+        }
+
+        function updateCenterEllipse() {
+            const ellipse = document.querySelector('.center-ellipse');
+            const longRay = document.querySelector('.center-ray.long');
+            const shortRay = document.querySelector('.center-ray.short');
+            const currentCount = document.querySelectorAll('.floating-image').length;
+
+            if (currentCount >= 12) {
+                if (ellipse.style.display !== 'block') {
+                    setRandomCenterRays();
+                }
+                ellipse.style.display = 'block';
+            } else {
+                ellipse.style.display = 'none';
+                longRay.style.display = 'none';
+                shortRay.style.display = 'none';
+            }
+        }
+
+        function createFloatingImage(x, y) {
+            const imageSrc = imageOptions[Math.floor(Math.random() * imageOptions.length)];
+            const wrapper = document.createElement('div');
+            wrapper.className = 'floating-image';
+            wrapper.style.left = `${x}px`;
+            wrapper.style.top = `${y}px`;
+            wrapper.innerHTML = `<img src="${imageSrc}" alt="Floating Image">`;
+            document.body.appendChild(wrapper);
+            updateCenterEllipse();
+
+            setTimeout(() => {
+                wrapper.remove();
+                updateCenterEllipse();
+            }, 2000);
+        }
+
+        document.addEventListener('mousemove', (event) => {
+            const now = Date.now();
+            const dx = event.clientX - lastX;
+            const dy = event.clientY - lastY;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            if (distance < 180 && now - lastTime < 300) return;
+
+            lastX = event.clientX;
+            lastY = event.clientY;
+            lastTime = now;
+            createFloatingImage(event.clientX + 15, event.clientY + 15);
+        });
+    </script>
+</body>
+</html>
